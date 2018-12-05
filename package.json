@@ -1,0 +1,50 @@
+{
+  "name": "base-node-express-api",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "babel-node server.js",
+    "dev": "nodemon",
+    "lint": "eslint ./",
+    "lint:fix": "eslint --fix ./",
+    "test": "nyc mocha",
+    "test:watch": "nyc mocha --watch"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "express-mung": "^0.5.1",
+    "html-pdf": "^2.2.0",
+    "http-errors": "^1.7.1",
+    "joi": "^14.0.6",
+    "jsonwebtoken": "^8.4.0",
+    "lodash": "^4.17.10",
+    "morgan": "^1.9.1",
+    "mustache": "^3.0.1",
+    "nodemon": "^1.18.4",
+    "swagger-jsdoc": "^3.2.3",
+    "swagger-ui-express": "^4.0.1",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.2.0",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-eslint-plugin": "^1.4.1",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0",
+    "node-mocks-http": "^1.7.3",
+    "nyc": "^13.1.0",
+    "pdftohtmljs": "^0.5.2",
+    "prettier": "^1.15.2",
+    "prettier-eslint": "^8.8.2",
+    "proxyquire": "^2.1.0",
+    "sinon": "^7.1.1",
+    "sinon-test": "^2.4.0"
+  }
+}
