@@ -22,9 +22,59 @@ import joi from 'joi';
 //  *    schema:
 //  *      $ref: '#/definitions/TestRequestDTO'
 //  */
-export const generatePdfSchema = joi.object({
-  content: joi.string().required(),
-  fileName: joi.string().required(),
+export const generateFromHTMLSchema = joi.object({
+  fileName: joi.strict().required(),
+  options: joi
+    .object({
+      header: joi
+        .string()
+        .optional()
+        .allow('', null),
+      content: joi.string().required(),
+      footer: joi
+        .string()
+        .optional()
+        .allow('', null),
+      document: joi.object({
+        landscape: joi
+          .boolean()
+          .optional()
+          .default(false),
+        width: joi
+          .string()
+          .optional()
+          .allow('', null),
+        height: joi
+          .string()
+          .optional()
+          .allow('', null),
+        format: joi
+          .string()
+          .optional()
+          .allow('', null),
+        margin: joi
+          .object({
+            top: joi
+              .string()
+              .optional()
+              .allow('', null),
+            right: joi
+              .string()
+              .optional()
+              .allow('', null),
+            bottom: joi
+              .string()
+              .optional()
+              .allow('', null),
+            left: joi
+              .string()
+              .optional()
+              .allow('', null),
+          })
+          .required(),
+      }),
+    })
+    .required(),
 });
 
 export default {};

@@ -1,5 +1,5 @@
 {
-  "name": "base-node-express-api",
+  "name": "pdf-service",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -15,7 +15,6 @@
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "express-mung": "^0.5.1",
-    "html-pdf": "^2.2.0",
     "http-errors": "^1.7.1",
     "joi": "^14.0.6",
     "jsonwebtoken": "^8.4.0",
@@ -23,6 +22,7 @@
     "morgan": "^1.9.1",
     "mustache": "^3.0.1",
     "nodemon": "^1.18.4",
+    "puppeteer": "^1.11.0",
     "swagger-jsdoc": "^3.2.3",
     "swagger-ui-express": "^4.0.1",
     "winston": "^3.1.0"
@@ -40,7 +40,6 @@
     "mocha": "^5.2.0",
     "node-mocks-http": "^1.7.3",
     "nyc": "^13.1.0",
-    "pdftohtmljs": "^0.5.2",
     "prettier": "^1.15.2",
     "prettier-eslint": "^8.8.2",
     "proxyquire": "^2.1.0",
