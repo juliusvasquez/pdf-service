@@ -1,10 +1,10 @@
 import express from 'express';
 import controller from './controller';
 import schemaValidator from '../middlewares/schemaValidator';
-import { generatePdfSchema } from './validator';
+import { generateFromHTMLSchema } from './validator';
 
 const router = express.Router();
 
-router.route('/generate').post(schemaValidator(generatePdfSchema), controller.generatePdf);
+router.route('/generate').post(schemaValidator(generateFromHTMLSchema), controller.generate);
 
 export default router;
