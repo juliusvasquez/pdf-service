@@ -14,6 +14,7 @@ import puppeeter from 'puppeteer';
 
 export default {
   async htmlToPdf(options) {
+    // Launch a headless browser
     const browser = await puppeeter.launch();
     try {
       // return new Promise((resolve, reject) => {
@@ -40,7 +41,7 @@ export default {
       await page.setContent(content);
 
       // Generate PDF and return its buffer
-      return page.pdf({
+      const pdfBuffer = await page.pdf({
         printBackground: true,
         width,
         height,
@@ -51,10 +52,13 @@ export default {
         headerTemplate: header === '' ? '&nbsp;' : header,
         footerTemplate: footer === '' ? '&nbsp;' : footer,
       });
-    } catch (err) {
-      throw new Error(err);
-    } finally {
+
       browser.close();
+
+      return pdfBuffer;
+    } catch (err) {
+      browser.close();
+      throw new Error(err);
     }
   },
 };
