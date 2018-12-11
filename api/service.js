@@ -1,21 +1,9 @@
-// import pdf from 'html-pdf';
-import puppeeter from 'puppeteer';
-
-// const options = {
-//   format: 'A4',
-//   orientation: 'portrait',
-//   margin: {
-//     top: '100px',
-//     bottom: '200px',
-//     right: '30px',
-//     left: '30px',
-//   },
-// };
+import jsreportcore from 'jsreport-core';
 
 export default {
   async htmlToPdf(options) {
     // Launch a headless browser
-    const browser = await puppeeter.launch();
+    // const browser = await puppeeter.launch();
     try {
       // return new Promise((resolve, reject) => {
       // pdf.create(content, options).toBuffer((err, buffer) => {
@@ -37,27 +25,54 @@ export default {
         },
       } = options;
 
-      const page = await browser.newPage();
-      await page.setContent(content);
+      const jsreport = jsreportcore();
 
-      // Generate PDF and return its buffer
-      const pdfBuffer = await page.pdf({
-        printBackground: true,
-        width,
-        height,
-        format,
-        landscape,
-        margin,
-        displayHeaderFooter: true,
-        headerTemplate: header === '' ? '&nbsp;' : header,
-        footerTemplate: footer === '' ? '&nbsp;' : footer,
+      await jsreport.init();
+
+      const render = await jsreport.render({
+        template: {
+          content,
+          engine: 'handlebars',
+          recipe: 'wkhtmltopdf',
+          wkhtmltopdf: {
+            pageSize: 'A4',
+            orientation: 'portrait',
+            marginBottom: '30mm',
+            header:
+              "<!DOCTYPE html> <html><head></head><body> Page <span id='page'></span> of <span id='topage'></span> <script> var vars={}; var x=window.location.search.substring(1).split('&'); for (var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);} document.getElementById('page').innerHTML = vars.page; document.getElementById('topage').innerHTML = vars.topage; </script> </body></html>",
+            footer:
+              "<!DOCTYPE html> <html><head></head><body> <span style='float:right'>Page <span id='page'></span> of <span id='topage'></span></span> <script> var vars={}; var x=window.location.search.substring(1).split('&'); for (var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);} document.getElementById('page').innerHTML = vars.page; document.getElementById('topage').innerHTML = vars.topage; </script> </body></html>",
+            headerHeight: '20',
+            footerHeight: '20',
+            dpi: 300,
+            cover:
+              "<!DOCTYPE html> <html><head></head><body> Page <span id='page'></span> of <span id='topage'></span> <script> var vars={}; var x=window.location.search.substring(1).split('&'); for (var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);} document.getElementById('page').innerHTML = vars.page; document.getElementById('topage').innerHTML = vars.topage; </script> </body></html>",
+          },
+        },
       });
 
-      browser.close();
+      return render.content;
 
-      return pdfBuffer;
+      // const page = await browser.newPage();
+      // await page.setContent(content);
+
+      // // Generate PDF and return its buffer
+      // const pdfBuffer = await page.pdf({
+      //   printBackground: true,
+      //   width,
+      //   height,
+      //   format,
+      //   landscape,
+      //   margin,
+      //   displayHeaderFooter: true,
+      //   headerTemplate: header === '' ? '&nbsp;' : header,
+      //   footerTemplate: footer === '' ? '&nbsp;' : footer,
+      // });
+
+      // browser.close();
     } catch (err) {
-      browser.close();
+      console.log(err);
+      // browser.close();
       throw new Error(err);
     }
   },
