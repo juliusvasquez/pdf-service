@@ -1,4 +1,6 @@
-# ADL API Project
+# PDF Service
+
+A microservice project that converts and generates PDF File from different content such as HTML content.
 
 ## Table of contents
 
@@ -15,70 +17,28 @@
 ##
 
 ## Pre-requisites
-
-- [Git](https://git-scm.com/) - version-control system
-- [Node.js and NPM](https://www.npmjs.com/get-npm)
-  To check if you have Node.js and npm installed, run the
-  ```bash
-  > node - v
-  > npm -v
-  ```
-- [Visual Studio Code](https://code.visualstudio.com) - source code editor
+Coming soon..
 
 ## Development
+Coming soon..
 
 ### Project Setup
-
-```bash
-> git clone git@github.com:tooltwist/adl-api.git
-> cd adl-api
-> npm install
-```
+Coming soon..
 
 #### Notes:
-
-- Configure the environment variables by renaming the `.env_template` to `.env`
-- `.env` is added in .gitignore file
-- `.env` needs to be updated to the latest release configuration
-
-| Commands           | Description                                        |
-| :----------------- | :------------------------------------------------- |
-| `npm run start`    | Start the server                                   |
-| `npm run dev`      | Start the server in development mode.              |
-| `npm run test`     | Run the unit tests                                 |
-| `npm run lint`     | Run the _eslint_                                   |
-| `npm run lint:fix` | Run the _eslint_ and try to fix issues as possible |
+Coming soon..
 
 ## Unit testing
-
-This project is using MochaJS testing framework and ChaiJS assertion library.
-
-- [Mocha](https://mochajs.org/) - JavaScript testing framework
-- [ChaiJS](https://www.chaijs.com/api/) - assertion library
-
-To run the unit test
-
-```bash
-> npm run test
-```
-
-To see the unit test coverage after running the test, simply open the html file in the browser
-
-```bash
-> cd coverage/index.html
-```
+Coming soon..
 
 ## Production
-
-Put the production notes here...
+Coming soon..
 
 ## Deployment
-
-Put the deployment process here...
+Coming soon..
 
 ## Documentation
-
-Put the API documentation details here....
+Coming soon..
 
 ## Coding standards and style guide
 
