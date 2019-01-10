@@ -2,10 +2,10 @@ import { assert } from 'chai';
 import { createSandbox } from 'sinon';
 import express from 'express';
 import { noCallThru } from 'proxyquire';
-import testUtil from '../util/testUtil';
+import testUtil from '../../util/testUtil';
 
 const sandbox = createSandbox();
-const { spy, stub } = sandbox;
+const { spy } = sandbox;
 
 // Prevent to call the original dependency
 const proxyquire = noCallThru();
