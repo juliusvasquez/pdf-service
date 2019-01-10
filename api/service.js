@@ -2,20 +2,7 @@ import jsreportcore from 'jsreport-core';
 
 export default {
   async htmlToPdf(options) {
-    // Launch a headless browser
-    // const browser = await puppeeter.launch();
     try {
-      // return new Promise((resolve, reject) => {
-      // pdf.create(content, options).toBuffer((err, buffer) => {
-      //   if (err) {
-      //     reject(err);
-      //   } else {
-      //     resolve(buffer);
-      //   }
-      // });
-
-      // Destructure the pdf options
-      // This will be used by puppeeter
       const {
         header,
         footer,

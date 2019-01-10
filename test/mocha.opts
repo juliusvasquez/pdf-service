@@ -1,7 +1,7 @@
 # mocha.opts
 
 # To allow es6 on test
---require babel-core/register 
+--require babel-register
 --require babel-polyfill 
 --reporter spec
 --recursive

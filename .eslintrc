@@ -16,6 +16,8 @@
   "plugins": ["eslint-plugin"],
   "rules": {
     "no-underscore-dangle": "off",
+    "no-plusplus": "off",
+    "no-param-reassign": "off",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   }
 }

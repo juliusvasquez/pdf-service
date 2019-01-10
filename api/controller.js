@@ -1,7 +1,7 @@
 import service from './service';
 
 export default {
-  async generate(req, res) {
+  async generatePdfByHtmlReport(req, res) {
     // Get request params
     const { fileName, options } = req.body;
 

@@ -22,7 +22,7 @@ import joi from 'joi';
 //  *    schema:
 //  *      $ref: '#/definitions/TestRequestDTO'
 //  */
-export const generateFromHTMLSchema = joi.object({
+export const htmlPdfReportSchema = joi.object({
   fileName: joi.strict().required(),
   options: joi
     .object({
