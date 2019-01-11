@@ -2,7 +2,7 @@ import _ from 'lodash';
 import errors from 'http-errors';
 import Joi from 'joi';
 // enabled HTTP methods for request data validation
-const _supportedMethods = ['post', 'put'];
+const _withReqBodyMethods = ['post', 'put'];
 
 // Joi validation options
 const _validationOptions = {
@@ -15,11 +15,16 @@ export default schema => (req, res, next) => {
   if (schema) {
     const method = req.method.toLowerCase();
 
-    if (_.includes(_supportedMethods, method)) {
-      // get schema for the current route
-      if (schema) {
-        // Validate req.body using the schema and validation options
-        return Joi.validate(req.body, schema, _validationOptions, (err, data) => {
+    // get schema for the current route
+    if (schema) {
+      let reqData = req.query;
+      if (_.includes(_withReqBodyMethods, method)) {
+        reqData = req.body;
+      }
+
+      // Validate req.body using the schema and validation options
+      try {
+        return Joi.validate(reqData, schema, _validationOptions, (err, data) => {
           if (err) {
             // Joi Error
             const errDetails = _.map(err.details, ({ message, type }) => ({
@@ -30,9 +35,18 @@ export default schema => (req, res, next) => {
           } else {
             // Replace req.body with the data after Joi validation
             req.body = data;
+
+            if (_.includes(_withReqBodyMethods, method)) {
+              req.body = data;
+            } else {
+              req.query = data;
+            }
+
             next();
           }
         });
+      } catch (error) {
+        console.log(error);
       }
     }
   }

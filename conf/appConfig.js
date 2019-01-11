@@ -1,3 +1,14 @@
+import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
+
+// Load and override environment variables
+const env = path.join(__dirname, '../.env');
+const envConfig = dotenv.parse(fs.readFileSync(env));
+Object.entries(envConfig).forEach((value) => {
+  process.env[value[0]] = envConfig[value[0]];
+});
+
 export default {
   app: {
     name: process.env.APP_NAME,

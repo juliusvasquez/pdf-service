@@ -1,36 +1,71 @@
-import express from 'express';
-import mung from 'express-mung';
-import bodyParser from 'body-parser';
-import {} from 'dotenv/config';
+import restify, { plugins } from 'restify';
+import corsMiddleware from 'restify-cors-middleware';
+import figlet from 'figlet';
+import versioning from 'restify-url-semver';
 import appConfig from './conf/appConfig';
-import routes from './routes';
+import routes from './conf/routes';
 import logger from './lib/logger';
 import jsend from './lib/jsend';
+import errorHandler from './lib/errorHandler';
 import morganLogger from './middlewares/morganLogger';
-import swaggerSetup from './middlewares/swaggerSetup';
 
-const server = express();
+/*
+ *  Prepare the RESTIFY server.
+ *    - sets up all of the default headers for the system.
+ *    - parse form submissions (e.g. multipart-form).
+ *    - compress responses so they are smaller.
+ */
+const server = restify.createServer({
+  versions: ['1.0.0'],
+  formatters: {
+    'application/json': jsend,
+  },
+});
 
-// Configure server to use bodyParser()
-// this will let us get the data from a POST
-server.use(bodyParser.json());
-server.use(
-  bodyParser.urlencoded({
-    extended: true,
-  }),
-);
+/*
+ *  Support CORS to allow cross domain access.
+ * See https://github.com/TabDigital/restify-cors-middleware
+ */
+const cors = corsMiddleware({
+  preflightMaxAge: 5, // Optional
+  // origins: ['http://api.myapp.com', 'http://web.myapp.com', 'http://127.0.0.1', 'http://localhost:8080', 'http://localhost:3000' ],
+  origins: ['*'],
+  // allowHeaders: ['API-Token', 'Authorization'],
+  // exposeHeaders: ['API-Token-Expiry']
+  allowHeaders: ['*'],
+  exposeHeaders: ['*'],
+});
+server.pre(cors.preflight);
+server.use(cors.actual);
 
-// Middleware to standardize the response
-server.use(mung.json(jsend));
+server.pre(restify.pre.sanitizePath());
+server.pre(versioning({ prefix: appConfig.app.basePath }));
+
+server.use(plugins.fullResponse());
+server.use(plugins.queryParser({ mapParams: true }));
+server.use(plugins.bodyParser({ mapParams: true }));
+server.use(plugins.gzipResponse());
+server.use(restify.plugins.acceptParser(server.acceptable));
+server.use(restify.plugins.queryParser());
 
 // Middleware to integrate morgan to the default logger
 server.use(morganLogger);
 
-// Add swagger documentation
-swaggerSetup(server);
-
 // Load all routes
 routes(server);
+
+// Error handling
+errorHandler(server);
+
+/*
+ *  Display a nice banner.
+ *  See https://www.npmjs.com/package/figlet
+ */
+logger.info(
+  `\n${figlet.textSync('adl-api', {
+    horizontalLayout: 'fitted',
+  })}`,
+);
 
 // Listen on provided port, on all network interfaces.
 server
@@ -51,8 +86,3 @@ server
         throw error;
     }
   });
-
-// Catch the unhandled rejections
-process.on('unhandledRejection', (error) => {
-  logger.error(`[Unhandled Rejection] - ${error}`);
-});

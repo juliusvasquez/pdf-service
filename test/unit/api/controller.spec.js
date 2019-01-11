@@ -7,67 +7,69 @@ import service from '../../../api/service';
 const sandbox = createSandbox();
 const { stub, spy, fake } = sandbox;
 
-describe('Controller', () => {
+describe.only('API Controller', () => {
   afterEach(() => {
     sandbox.restore();
   });
 
   it('should be defined', () => assert.isDefined(controller, 'Controller was not defined'));
 
-  describe('`generatePdfByHtmlReport` function', () => {
-    it('should be a function', () => assert.isFunction(
-      controller.generatePdfByHtmlReport,
-      '`generatePdfByHtmlReport` is not a function',
-    ));
+  describe('`generatePdfByWebpage` functionality', () => {});
 
-    it('should respond a pdf buffer when the request is valid', async () => {
-      // Create fake param and return values
-      const fileName = fake();
-      const options = fake();
-      const pdfBuffer = fake();
+  // describe('`generatePdfByHtmlReport` function', () => {
+  //   it('should be a function', () => assert.isFunction(
+  //     controller.generatePdfByHtmlReport,
+  //     '`generatePdfByHtmlReport` is not a function',
+  //   ));
 
-      // Create a request/response
-      const req = httpMocks.createRequest({
-        body: { fileName, options },
-      });
-      const res = httpMocks.createResponse();
+  //   it('should respond a pdf buffer when the request is valid', async () => {
+  //     // Create fake param and return values
+  //     const fileName = fake();
+  //     const options = fake();
+  //     const pdfBuffer = fake();
 
-      // Spy the res' send method
-      const resSpy = spy(res, 'send');
+  //     // Create a request/response
+  //     const req = httpMocks.createRequest({
+  //       body: { fileName, options },
+  //     });
+  //     const res = httpMocks.createResponse();
 
-      // Stub the htmlToPdf service
-      stub(service, 'htmlToPdf')
-        .withArgs(options)
-        .returns(pdfBuffer);
+  //     // Spy the res' send method
+  //     const resSpy = spy(res, 'send');
 
-      await controller.generatePdfByHtmlReport(req, res);
+  //     // Stub the htmlToPdf service
+  //     stub(service, 'htmlToPdf')
+  //       .withArgs(options)
+  //       .returns(pdfBuffer);
 
-      assert(resSpy.calledWithExactly(pdfBuffer), 'PDF Buffer was not returned in the client');
-    });
+  //     await controller.generatePdfByHtmlReport(req, res);
 
-    it('should respond an error when the request encounters an error', async () => {
-      // Create fake param and return values
-      const fileName = fake();
-      const options = fake();
-      const error = new Error();
+  //     assert(resSpy.calledWithExactly(pdfBuffer), 'PDF Buffer was not returned in the client');
+  //   });
 
-      // Create a request/response
-      const req = httpMocks.createRequest({
-        body: { fileName, options },
-      });
-      const res = httpMocks.createResponse();
+  //   it('should respond an error when the request encounters an error', async () => {
+  //     // Create fake param and return values
+  //     const fileName = fake();
+  //     const options = fake();
+  //     const error = new Error();
 
-      // Spy the res' json method
-      const resSpy = spy(res, 'json');
+  //     // Create a request/response
+  //     const req = httpMocks.createRequest({
+  //       body: { fileName, options },
+  //     });
+  //     const res = httpMocks.createResponse();
 
-      // Stub the htmlToPdf service to throw an error
-      stub(service, 'htmlToPdf')
-        .withArgs(options)
-        .throws(error);
+  //     // Spy the res' json method
+  //     const resSpy = spy(res, 'json');
 
-      await controller.generatePdfByHtmlReport(req, res);
+  //     // Stub the htmlToPdf service to throw an error
+  //     stub(service, 'htmlToPdf')
+  //       .withArgs(options)
+  //       .throws(error);
 
-      assert(resSpy.calledWithExactly(error), 'Error was not returned in the client');
-    });
-  });
+  //     await controller.generatePdfByHtmlReport(req, res);
+
+  //     assert(resSpy.calledWithExactly(error), 'Error was not returned in the client');
+  //   });
+  // });
 });
