@@ -1,5 +1,5 @@
-import route from '../api/route';
+import pdfRoute from '../routes/pdf.route';
 
 export default (server) => {
-  route(server);
+  pdfRoute(server);
 };

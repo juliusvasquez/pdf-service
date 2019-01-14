@@ -62,7 +62,7 @@ errorHandler(server);
  *  See https://www.npmjs.com/package/figlet
  */
 logger.info(
-  `\n${figlet.textSync('adl-api', {
+  `\n${figlet.textSync('Report Service', {
     horizontalLayout: 'fitted',
   })}`,
 );

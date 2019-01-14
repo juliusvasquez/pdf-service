@@ -1,11 +1,11 @@
 import { assert } from 'chai';
 import { createSandbox } from 'sinon';
-import route from '../../../api/route';
+import route from '../../../routes/pdf.route';
 
 const sandbox = createSandbox();
 const { stub } = sandbox;
 
-describe('API Routes', () => {
+describe('PDF Routes', () => {
   it('should be defined', () => assert.isDefined(route));
 
   afterEach(() => {
@@ -36,17 +36,17 @@ describe('API Routes', () => {
     const generatePdfByWebpageStub = stub();
 
     // Stub required controllers
-    let restoreController;
-    beforeEach(() => {
-      restoreController = route.__set__({
-        controller: {
+    let restore;
+    before(() => {
+      restore = route.__set__({
+        pdfController: {
           generatePdfByWebpage: generatePdfByWebpageStub,
         },
       });
     });
 
-    afterEach(() => {
-      restoreController();
+    after(() => {
+      restore();
     });
 
     it('should have the /webpage-to-pdf route', () => {
@@ -54,6 +54,27 @@ describe('API Routes', () => {
       assert(
         serverGetStub.getCall(0).calledWith('/webpage-to-pdf'),
         '/webpage-to-pdf was not defined',
+      );
+    });
+
+    it('should have a schema validator for GET /webpage-to-pdf route', () => {
+      const validatorStub = stub();
+      const queryStub = stub();
+
+      const schemaRestore = route.__set__({
+        schemaValidator: validatorStub,
+        webpageToPdfValidator: {
+          query: queryStub,
+        },
+      });
+
+      route(stubServer);
+
+      schemaRestore();
+
+      assert(
+        validatorStub.getCall(0).calledWith(queryStub),
+        'Schema validation was not specified or incorrect',
       );
     });
 
