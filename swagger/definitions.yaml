@@ -1,0 +1,20 @@
+definitions:
+  DefaultResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        enum:
+          - success
+          - error
+  ErrorModel:
+    allOf:
+      - $ref: '#/definitions/DefaultResponse'
+      - properties:
+          status:
+            type: string
+            enum:
+              - error
+          message:
+            type: string
+            description: Details of the error

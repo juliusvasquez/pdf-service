@@ -15,6 +15,7 @@ export default {
     env: process.env.APP_ENV,
     version: process.env.APP_VERSION,
     port: process.env.APP_PORT || '3000',
+    host: process.env.APP_HOST,
     basePath: '/api',
   },
   logger: {

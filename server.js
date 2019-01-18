@@ -1,13 +1,14 @@
 import restify, { plugins } from 'restify';
 import corsMiddleware from 'restify-cors-middleware';
 import figlet from 'figlet';
-import versioning from 'restify-url-semver';
+import versioning from './middlewares/versioning';
 import appConfig from './conf/appConfig';
 import routes from './conf/routes';
 import logger from './lib/logger';
 import jsend from './lib/jsend';
 import errorHandler from './lib/errorHandler';
 import morganLogger from './middlewares/morganLogger';
+import swaggerSetup from './middlewares/swaggerSetup';
 
 /*
  *  Prepare the RESTIFY server.
@@ -16,11 +17,12 @@ import morganLogger from './middlewares/morganLogger';
  *    - compress responses so they are smaller.
  */
 const server = restify.createServer({
-  versions: ['1.0.0'],
+  name: appConfig.app.name,
   formatters: {
     'application/json': jsend,
   },
 });
+swaggerSetup(server);
 
 /*
  *  Support CORS to allow cross domain access.
@@ -62,7 +64,7 @@ errorHandler(server);
  *  See https://www.npmjs.com/package/figlet
  */
 logger.info(
-  `\n${figlet.textSync('Report Service', {
+  `\n${figlet.textSync(`${appConfig.app.name}`, {
     horizontalLayout: 'fitted',
   })}`,
 );

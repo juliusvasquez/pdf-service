@@ -1,38 +1,21 @@
-const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUI from 'swagger-ui-restify';
+import { plugins } from 'restify';
+import swaggerOptions from '../conf/swagger';
 
-export default (app) => {
-  // add swagger definitions
-  const swaggerOptions = {
-    swaggerDefinition: {
-      info: {
-        title: 'ADL API Documentation', // Title (required)
-        version: '1.0', // Version (required)
-      },
-      basePath: '/api/1.0',
-      securityDefinitions: {
-        bearerAuth: {
-          type: 'apiKey',
-          in: 'header',
-          name: 'Authorization',
-        },
-      },
-      security: [
-        {
-          bearerAuth: [],
-        },
-      ],
-    },
-    apis: [
-      './lib/jsend.js',
-      './controllers/*.controller.js',
-      './schemas/**/*.schema.js',
-      './controllers/*.yml',
-      './routes/*.route.js',
-      './routes/*.yml',
-    ], // Path to the API docs
-  };
-
+export default (server) => {
   const swaggerDocument = swaggerJSDoc(swaggerOptions);
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { showExplorer: true }));
+  server.get('/api-docs/*', swaggerUI.serve);
+  server.get(
+    '/api-docs',
+    plugins.conditionalHandler([
+      {
+        version: '1.0.0',
+        handler: swaggerUI.setup(swaggerDocument, {
+          explorer: true,
+          baseURL: './api-docs',
+        }),
+      },
+    ]),
+  );
 };

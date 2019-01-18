@@ -1,0 +1,89 @@
+/webpage-to-pdf:
+  get:
+    summary: Webpage to PDF
+    description: >
+      This resource converts a webpage link into a pdf file.
+      Webpage link is identified by the query parameter **url**.
+    tags:
+      - PDF
+    parameters:
+      - in: query
+        name: url
+        description: URL to navigate page to. The url should include scheme, e.g. https://
+        required: true
+        schema:
+          type: string
+          format: uri
+      - in: query
+        name: landscape
+        description: Paper orientation. Defaults to **false**.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: format
+        description: >
+          Paper format. If set, takes priority over width or height options.
+          Defaults to **Letter**.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: width
+        description: Paper width, accepts values labeled with units.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: height
+        description: Paper height, accepts values labeled with units.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: marginTop
+        description: Top margin, accepts values labeled with units.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: marginBottom
+        description: Bottom margin, accepts values labeled with units.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: marginLeft
+        description: Left margin, accepts values labeled with units.
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: marginRight
+        description: Right margin, accepts values labeled with units.
+        required: false
+        schema:
+          type: string
+    produces:
+      - application/octet-stream
+    responses:
+      200:
+        description: A PDF File
+        schema:
+          type: file
+      422:
+        description: >
+          The server cannot process the request due to incorrect or missing entity type/s.
+        schema:
+          allOf:
+            - $ref: '#/definitions/ErrorModel'
+            - properties:
+                message:
+                  type: array
+                  example:
+                    [{ 'message': 'url is required', 'type': 'any.required' }]
+      5xx:
+        description: >
+          The server encountered unexpected error
+        schema:
+          $ref: '#/definitions/ErrorModel'
